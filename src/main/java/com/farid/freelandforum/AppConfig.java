@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
@@ -27,7 +28,7 @@ public class AppConfig {
         return new PropertyPlaceholderConfigurer();
     }
 
-    @Bean
+    @Bean(name = "hikariConfig")
     public HikariConfig hikariConfig(){
 
         HikariConfig  hikariConfig = new HikariConfig();
@@ -40,6 +41,7 @@ public class AppConfig {
     }
 
     @Bean
+    @DependsOn("hikariConfig")
     public HikariCp hikariCp(){
         return new HikariCp(hikariConfig());
     }
