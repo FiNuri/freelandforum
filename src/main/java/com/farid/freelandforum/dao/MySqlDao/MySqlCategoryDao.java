@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlCategoryDao implements CategoryDao {
@@ -55,6 +56,7 @@ public class MySqlCategoryDao implements CategoryDao {
     }
 
     @Override
+    // need to finish a method
     public FСategory getCategoryById(int id) throws DaoExeption {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -72,6 +74,13 @@ public class MySqlCategoryDao implements CategoryDao {
         } catch (SQLException e) {
             throw new DaoExeption(DaoExeption._SQL_ERROR);
         } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
             if (statement != null) {
                 try {
                     statement.close();
@@ -92,17 +101,118 @@ public class MySqlCategoryDao implements CategoryDao {
 
 
     @Override
+    //need to finish a method
     public List<FСategory> getAllCategorys() throws DaoExeption {
-        return null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        FСategory category = null;
+        List<FСategory> categoryList = new ArrayList<>();
+
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM category");
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                category = new FСategory();
+                category.setId(resultSet.getInt("id"));
+                category.setName(resultSet.getString("name"));
+                categoryList.add(category);
+            }
+
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return categoryList;
     }
 
     @Override
-    public String updateCategoryById(int id) throws DaoExeption {
-        return null;
+    public String updateCategoryById(FСategory category) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        String returnCod;
+
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("UPDATE category SET name = ? WHERE id = ?");
+            statement.setString(1, category.getName());
+            statement.setInt(2, category.getId());
+            returnCod = Integer.toString(statement.executeUpdate());
+
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return returnCod;
     }
 
     @Override
     public String dropCategoryById(int id) throws DaoExeption {
-        return null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        String returnCod;
+
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("DELETE FROM category WHERE id = ?");
+            statement.setInt(1, id);
+            returnCod = Integer.toString(statement.executeUpdate());
+
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return returnCod;
     }
+
 }

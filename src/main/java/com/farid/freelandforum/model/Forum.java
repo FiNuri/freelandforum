@@ -8,7 +8,7 @@ import java.util.List;
 @Getter @Setter
 public class Forum {
 
-    private int id;
+    private int id, ownerCategoryId, ownerForumId;
     private String name;
     private List<Forum> forums;
     private List<Topic> topics;

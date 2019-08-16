@@ -12,7 +12,7 @@ public interface CategoryDao {
 
     List<FСategory> getAllCategorys() throws DaoExeption;
 
-    String updateCategoryById(int id) throws DaoExeption;
+    String updateCategoryById(FСategory category) throws DaoExeption;
 
     String dropCategoryById(int id) throws DaoExeption;
 }
