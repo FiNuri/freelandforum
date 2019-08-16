@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class Сategory {
+public class FСategory {
 
     private int id;
     private String name;

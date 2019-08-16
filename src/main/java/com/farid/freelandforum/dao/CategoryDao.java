@@ -1,16 +1,16 @@
 package com.farid.freelandforum.dao;
 
-import com.farid.freelandforum.model.Сategory;
+import com.farid.freelandforum.model.FСategory;
 
 import java.util.List;
 
 public interface CategoryDao {
 
-    String createCategory(Сategory category) throws DaoExeption;
+    String createCategory(FСategory category) throws DaoExeption;
 
-    Сategory getCategoryById(int id) throws DaoExeption;
+    FСategory getCategoryById(int id) throws DaoExeption;
 
-    List<Сategory> getAllCategorys() throws DaoExeption;
+    List<FСategory> getAllCategorys() throws DaoExeption;
 
     String updateCategoryById(int id) throws DaoExeption;
 

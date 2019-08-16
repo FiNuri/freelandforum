@@ -3,10 +3,11 @@ package com.farid.freelandforum.dao.MySqlDao;
 import com.farid.freelandforum.dao.CategoryDao;
 import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.dao.HikariCp;
-import com.farid.freelandforum.model.Сategory;
+import com.farid.freelandforum.model.FСategory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MySqlCategoryDao implements CategoryDao {
 
 
     @Override
-    public String createCategory(Сategory category) throws DaoExeption {
+    public String createCategory(FСategory category) throws DaoExeption {
         Connection connection = null;
         PreparedStatement statement = null;
         int cod;
@@ -54,12 +55,45 @@ public class MySqlCategoryDao implements CategoryDao {
     }
 
     @Override
-    public Сategory getCategoryById(int id) throws DaoExeption {
-        return null;
+    public FСategory getCategoryById(int id) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        FСategory category = new FСategory();
+
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM category WHERE id = ?");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            category.setId(resultSet.getInt("id"));
+            category.setName(resultSet.getString("name"));
+
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return category;
     }
 
+}
+
     @Override
-    public List<Сategory> getAllCategorys() throws DaoExeption {
+    public List<FСategory> getAllCategorys() throws DaoExeption {
         return null;
     }
 
