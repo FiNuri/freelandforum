@@ -90,7 +90,6 @@ public class MySqlCategoryDao implements CategoryDao {
         return category;
     }
 
-}
 
     @Override
     public List<FСategory> getAllCategorys() throws DaoExeption {
