@@ -1,8 +1,10 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
 import com.farid.freelandforum.dao.CategoryDao;
+import com.farid.freelandforum.dao.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
-import com.farid.freelandforum.dao.HikariCp;
+import com.farid.freelandforum.dao.ForumDao;
+import com.farid.freelandforum.model.Forum;
 import com.farid.freelandforum.model.FСategory;
 
 import java.sql.Connection;
@@ -14,10 +16,12 @@ import java.util.List;
 
 public class MySqlCategoryDao implements CategoryDao {
 
-    private HikariCp connectionPool;
+    private ConnectionsPool connectionPool;
+    private ForumDao forumDao;
 
-    public MySqlCategoryDao(HikariCp connectionPool) {
+    public MySqlCategoryDao(ConnectionsPool connectionPool, ForumDao forumDao) {
         this.connectionPool = connectionPool;
+        this.forumDao = forumDao;
     }
 
 
@@ -101,13 +105,13 @@ public class MySqlCategoryDao implements CategoryDao {
 
 
     @Override
-    //need to finish a method
     public List<FСategory> getAllCategorys() throws DaoExeption {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        FСategory category = null;
+        FСategory category;
         List<FСategory> categoryList = new ArrayList<>();
+        List<Forum> forumList;
 
         try {
             connection = connectionPool.getConnection();
@@ -117,6 +121,8 @@ public class MySqlCategoryDao implements CategoryDao {
                 category = new FСategory();
                 category.setId(resultSet.getInt("id"));
                 category.setName(resultSet.getString("name"));
+                forumList = forumDao.getAllForumsByOwnerCategoryID(category.getId());
+                category.setForums(forumList);
                 categoryList.add(category);
             }
 

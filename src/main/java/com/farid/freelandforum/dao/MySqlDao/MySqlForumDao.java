@@ -1,21 +1,22 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
+import com.farid.freelandforum.dao.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.dao.ForumDao;
-import com.farid.freelandforum.dao.HikariCp;
 import com.farid.freelandforum.model.Forum;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlForumDao implements ForumDao {
 
-    HikariCp connectionPool;
+    ConnectionsPool connectionPool;
 
-    public MySqlForumDao(HikariCp connectionPool) {
+    public MySqlForumDao(ConnectionsPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
@@ -118,5 +119,54 @@ public class MySqlForumDao implements ForumDao {
     @Override
     public List<Forum> getFouremFromTo(int from, int to) throws DaoExeption {
         return null;
+    }
+
+    @Override
+    public List<Forum> getAllForumsByOwnerCategoryID(int id) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Forum> forumList = new ArrayList<>();
+        Forum forum;
+
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("SELECT forums.id, forums.name, forums.ownerCategory " +
+                    "FROM forums WHERE ownerCategory = ?");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                forum = new Forum();
+                forum.setId(resultSet.getInt("id"));
+                forum.setName(resultSet.getString("name"));
+                forum.setOwnerCategoryId(resultSet.getInt("ownerCategory"));
+                forumList.add(forum);
+            }
+        }catch (SQLException e){
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        }finally {
+            if (resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
+            if (statement != null){
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return forumList;
     }
 }

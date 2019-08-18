@@ -17,4 +17,7 @@ public interface ForumDao {
     String dropForumById(int id) throws DaoExeption;
 
     List<Forum> getFouremFromTo(int from, int to) throws DaoExeption;
+
+    List<Forum> getAllForumsByOwnerCategoryID(int id) throws  DaoExeption;
+
 }
