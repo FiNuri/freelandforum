@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface UserDao {
 
-    String createUser(User user);
+    String createUser(User user) throws DaoExeption;
 
-    User getUserById(int id);
+    User getUserById(int id) throws DaoExeption;
 
-    List<User> getAllUsers();
+    List<User> getAllUsers() throws DaoExeption;
 
-    String updateById(int id);
+    String updateById(int id) throws DaoExeption;
 
-    String dropUserById(int id);
+    String dropUserById(int id) throws DaoExeption;
 
 }

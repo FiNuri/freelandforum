@@ -11,6 +11,7 @@ CREATE TABLE users (
   rating BIGINT(255),
   birthDate DATE ,
   registrationDate DATE DEFAULT(CURRENT_DATE()),
+  nikName VARCHAR(30) NOT NULL ,
   sex ENUM('man','woman'),
   rankk ENUM('noob', 'userr', 'pro', 'master', 'legend', 'moderator', 'admin'),
   ava BLOB,
@@ -49,6 +50,7 @@ CREATE TABLE comments (
   ownerTopic INTEGER (255),
   ownerComment INTEGER (255),
   rating INTEGER (255),
+  postDate DATE DEFAULT (CURRENT_DATE()),
   PRIMARY KEY (id),
   FOREIGN KEY (ownerComment) REFERENCES comments(id),
   FOREIGN KEY (ownerTopic) REFERENCES topics(id));

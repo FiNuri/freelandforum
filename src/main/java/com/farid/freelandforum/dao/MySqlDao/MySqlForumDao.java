@@ -1,11 +1,10 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
-import com.farid.freelandforum.dao.ConnectionsPool;
-import com.farid.freelandforum.dao.DaoExeption;
-import com.farid.freelandforum.dao.ForumDao;
-import com.farid.freelandforum.dao.TopicDao;
+import com.farid.freelandforum.dao.*;
+import com.farid.freelandforum.model.Comment;
 import com.farid.freelandforum.model.Forum;
 import com.farid.freelandforum.model.Topic;
+import com.farid.freelandforum.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +17,12 @@ public class MySqlForumDao implements ForumDao {
 
     ConnectionsPool connectionPool;
     TopicDao topicDao;
+    UserDao userDao;
 
-    public MySqlForumDao(ConnectionsPool connectionPool, TopicDao topicDao) {
+    public MySqlForumDao(ConnectionsPool connectionPool, TopicDao topicDao, UserDao userDao) {
         this.connectionPool = connectionPool;
         this.topicDao = topicDao;
+        this.userDao = userDao;
     }
 
     @Override
@@ -152,6 +153,7 @@ public class MySqlForumDao implements ForumDao {
                     postCount = postCount + topic.getComments().size();
                 }
                 forum.setPostsCount(postCount);
+                forum.setLastPost(getLastCommentInForum(forum.getId()));
                 forumList.add(forum);
             }
         } catch (SQLException e) {
@@ -180,5 +182,51 @@ public class MySqlForumDao implements ForumDao {
             }
         }
         return forumList;
+    }
+
+    @Override
+    public Comment getLastCommentInForum(int id) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Comment lastComment;
+        User user;
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement("SELECT comments.id, comments.authorID, comments.postDate FROM comments WHERE ownerTopic = (" +
+                    "SELECT topics.id FROM topics WHERE topics.ownerForum = ?) ORDER BY comments.postDate LIMIT 1");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            lastComment = new Comment();
+            lastComment.setId(resultSet.getInt("id"));
+            lastComment.setPostDate(resultSet.getDate("postDate"));
+            user = userDao.getUserById(resultSet.getInt("authorID"));
+            lastComment.setAuthor(user);
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        }finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return lastComment;
     }
 }

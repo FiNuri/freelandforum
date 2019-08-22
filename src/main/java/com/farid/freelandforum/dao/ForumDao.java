@@ -1,5 +1,6 @@
 package com.farid.freelandforum.dao;
 
+import com.farid.freelandforum.model.Comment;
 import com.farid.freelandforum.model.Forum;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface ForumDao {
     List<Forum> getFouremFromTo(int from, int to) throws DaoExeption;
 
     List<Forum> getAllForumsByOwnerCategoryID(int id) throws  DaoExeption;
+
+    Comment getLastCommentInForum(int id) throws  DaoExeption;
 
 }
