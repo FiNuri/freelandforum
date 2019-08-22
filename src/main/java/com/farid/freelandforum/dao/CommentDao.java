@@ -17,4 +17,7 @@ public interface CommentDao {
     String dropCommentById(int id) throws DaoExeption;
 
     List<Comment> getCommentFromTo(int from, int to) throws DaoExeption;
+
+    List<Comment> getAllCommentsByOwnerTopicId(int id) throws DaoExeption;
+
 }

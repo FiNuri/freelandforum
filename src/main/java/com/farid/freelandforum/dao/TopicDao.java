@@ -17,4 +17,6 @@ public interface TopicDao {
     String dropTopicById(int id) throws DaoExeption;
 
     List<Topic> getTopicsFromTo(int from, int to) throws DaoExeption;
+
+    List<Topic> getAllTopicsByOwnerForumID(int id) throws DaoExeption;
 }
