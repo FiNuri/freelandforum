@@ -1,9 +1,9 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
-import com.farid.freelandforum.dao.CommentDao;
-import com.farid.freelandforum.dao.ConnectionsPool;
+import com.farid.freelandforum.dao.Interfaces.CommentDao;
+import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
-import com.farid.freelandforum.dao.TopicDao;
+import com.farid.freelandforum.dao.Interfaces.TopicDao;
 import com.farid.freelandforum.model.Comment;
 import com.farid.freelandforum.model.Topic;
 
@@ -50,9 +50,62 @@ public class MySqlTopicDao implements TopicDao {
     }
 
     @Override
-    public List<Topic> getTopicsFromTo(int from, int to) throws DaoExeption {
-        return null;
+    public List<Topic> getTopicsByForumIdFromTo(int forumID, int from) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Topic topic;
+        Comment lastComment;
+        List<Topic> topicList = new ArrayList<>();
+        List<Comment> commentList;
+        int to = from + 20;
+        try {
+            connection = connectionsPool.getConnection();
+            statement = connection.prepareStatement("SELECT topics.id, topics.name, topics.views FROM topics " +
+                    "WHERE topics.ownerForum = ?  ORDER BY topics.id LIMIT ?, ?");
+            statement.setInt(1, forumID);
+            statement.setInt(2, from);
+            statement.setInt(3, to);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                topic = new Topic();
+                topic.setId(resultSet.getInt("id"));
+                topic.setName(resultSet.getString("name"));
+                topic.setViews(resultSet.getInt("views"));
+                commentList = commentDao.getAllCommentsByOwnerTopicId(topic.getId());
+                topic.setComments(commentList);
+                lastComment = commentDao.getLastCommenInTopic(topic.getId());
+                topic.setLastComment(lastComment);
+                topicList.add(topic);
+            }
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return topicList;
     }
+
 
     @Override
     public List<Topic> getAllTopicsByOwnerForumID(int id) throws DaoExeption {
@@ -69,7 +122,7 @@ public class MySqlTopicDao implements TopicDao {
                     " WHERE topics.ownerForum = ?");
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 topic = new Topic();
                 topic.setId(resultSet.getInt("id"));
                 topic.setName(resultSet.getString("name"));
@@ -82,22 +135,22 @@ public class MySqlTopicDao implements TopicDao {
 
         } catch (SQLException e) {
             throw new DaoExeption(DaoExeption._SQL_ERROR);
-        }finally {
-            if (resultSet != null){
+        } finally {
+            if (resultSet != null) {
                 try {
                     resultSet.close();
                 } catch (SQLException e) {
                     throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
                 }
             }
-            if (statement != null){
+            if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException e) {
                     throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
                 }
             }
-            if (connection != null){
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {

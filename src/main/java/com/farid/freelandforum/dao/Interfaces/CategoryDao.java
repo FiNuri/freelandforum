@@ -1,5 +1,6 @@
-package com.farid.freelandforum.dao;
+package com.farid.freelandforum.dao.Interfaces;
 
+import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.model.FСategory;
 
 import java.util.List;

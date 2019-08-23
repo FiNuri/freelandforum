@@ -1,5 +1,6 @@
-package com.farid.freelandforum.dao;
+package com.farid.freelandforum.dao.Interfaces;
 
+import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.model.Comment;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface CommentDao {
     List<Comment> getCommentFromTo(int from, int to) throws DaoExeption;
 
     List<Comment> getAllCommentsByOwnerTopicId(int id) throws DaoExeption;
+
+    Comment getLastCommenInTopic(int topicID) throws DaoExeption;
 
 }

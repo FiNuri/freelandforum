@@ -1,5 +1,6 @@
-package com.farid.freelandforum.dao;
+package com.farid.freelandforum.dao.Interfaces;
 
+import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.model.Topic;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface TopicDao {
 
     String dropTopicById(int id) throws DaoExeption;
 
-    List<Topic> getTopicsFromTo(int from, int to) throws DaoExeption;
+    List<Topic> getTopicsByForumIdFromTo(int forumID, int from) throws DaoExeption;
 
     List<Topic> getAllTopicsByOwnerForumID(int id) throws DaoExeption;
 }

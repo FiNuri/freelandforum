@@ -1,6 +1,10 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
 import com.farid.freelandforum.dao.*;
+import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
+import com.farid.freelandforum.dao.Interfaces.ForumDao;
+import com.farid.freelandforum.dao.Interfaces.TopicDao;
+import com.farid.freelandforum.dao.Interfaces.UserDao;
 import com.farid.freelandforum.model.Comment;
 import com.farid.freelandforum.model.Forum;
 import com.farid.freelandforum.model.Topic;
@@ -61,11 +65,12 @@ public class MySqlForumDao implements ForumDao {
     }
 
     @Override
-    public Forum getForumById(int id) throws DaoExeption {
+    public Forum getForumById(int id, int from) throws DaoExeption {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Forum forum;
+        List<Topic> topicList;
         try {
             connection = connectionPool.getConnection();
             statement = connection.prepareStatement("SELECT * FROM forums WHERE id = ?");
@@ -76,6 +81,8 @@ public class MySqlForumDao implements ForumDao {
             forum.setName(resultSet.getString("name"));
             forum.setOwnerCategoryId(resultSet.getInt("ownerCategory"));
             forum.setOwnerCategoryId(resultSet.getInt("ownerForum"));
+            topicList = topicDao.getTopicsByForumIdFromTo(id, from);
+            forum.setTopics(topicList);
 
         } catch (SQLException e) {
             throw new DaoExeption(DaoExeption._SQL_ERROR);

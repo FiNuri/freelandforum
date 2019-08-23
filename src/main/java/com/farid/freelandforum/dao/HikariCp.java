@@ -1,10 +1,9 @@
 package com.farid.freelandforum.dao;
 
+import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,9 +1,9 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
-import com.farid.freelandforum.dao.CategoryDao;
-import com.farid.freelandforum.dao.ConnectionsPool;
+import com.farid.freelandforum.dao.Interfaces.CategoryDao;
+import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
-import com.farid.freelandforum.dao.ForumDao;
+import com.farid.freelandforum.dao.Interfaces.ForumDao;
 import com.farid.freelandforum.model.Forum;
 import com.farid.freelandforum.model.FСategory;
 

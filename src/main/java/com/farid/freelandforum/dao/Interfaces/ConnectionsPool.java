@@ -1,4 +1,4 @@
-package com.farid.freelandforum.dao;
+package com.farid.freelandforum.dao.Interfaces;
 
 import java.sql.Connection;
 import java.sql.SQLException;

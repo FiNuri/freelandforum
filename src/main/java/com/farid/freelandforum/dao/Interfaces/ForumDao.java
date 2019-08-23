@@ -1,5 +1,6 @@
-package com.farid.freelandforum.dao;
+package com.farid.freelandforum.dao.Interfaces;
 
+import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.model.Comment;
 import com.farid.freelandforum.model.Forum;
 
@@ -9,7 +10,7 @@ public interface ForumDao {
 
     String createForum(Forum forum) throws DaoExeption;
 
-    Forum getForumById(int id) throws DaoExeption;
+    Forum getForumById(int id, int from) throws DaoExeption;
 
     List<Forum> getAllForums() throws DaoExeption;
 

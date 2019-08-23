@@ -1,8 +1,8 @@
 package com.farid.freelandforum.dao.MySqlDao;
 
-import com.farid.freelandforum.dao.ConnectionsPool;
+import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
-import com.farid.freelandforum.dao.UserDao;
+import com.farid.freelandforum.dao.Interfaces.UserDao;
 import com.farid.freelandforum.model.Rank;
 import com.farid.freelandforum.model.Sex;
 import com.farid.freelandforum.model.User;
