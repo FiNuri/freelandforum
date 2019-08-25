@@ -9,7 +9,7 @@ public interface TopicDao {
 
     String createTopic(Topic topic) throws DaoExeption;
 
-    Topic getTopicById(int id) throws DaoExeption;
+    Topic getTopicById(int id, int from) throws DaoExeption;
 
     List<Topic> getAllTopics() throws DaoExeption;
 
@@ -20,4 +20,6 @@ public interface TopicDao {
     List<Topic> getTopicsByForumIdFromTo(int forumID, int from) throws DaoExeption;
 
     List<Topic> getAllTopicsByOwnerForumID(int id) throws DaoExeption;
+
+    long getTopicsCountByForumID(int forumID) throws  DaoExeption;
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public class Forum {
 
     private int id, ownerCategoryId, ownerForumId, postsCount;
+    private long topicsCount;
     private String name;
     private Comment lastPost;
     private List<Forum> forums;

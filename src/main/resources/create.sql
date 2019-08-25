@@ -42,7 +42,8 @@ CREATE TABLE topics (
   rating INTEGER (255),
   ownerForum INTEGER (255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(ownerForum) REFERENCES forums(id));
+  FOREIGN KEY(ownerForum) REFERENCES forums(id),
+  FOREIGN KEY(author) REFERENCES  users(id));
 
 CREATE TABLE comments (
   id INTEGER (255) NOT NULL AUTO_INCREMENT,
@@ -50,6 +51,7 @@ CREATE TABLE comments (
   ownerTopic INTEGER (255),
   ownerComment INTEGER (255),
   rating INTEGER (255),
+  data LONGTEXT,
   postDate DATE DEFAULT (CURRENT_DATE()),
   PRIMARY KEY (id),
   FOREIGN KEY (ownerComment) REFERENCES comments(id),

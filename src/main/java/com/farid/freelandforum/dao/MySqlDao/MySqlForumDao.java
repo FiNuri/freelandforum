@@ -82,6 +82,7 @@ public class MySqlForumDao implements ForumDao {
             forum.setOwnerCategoryId(resultSet.getInt("ownerCategory"));
             forum.setOwnerCategoryId(resultSet.getInt("ownerForum"));
             topicList = topicDao.getTopicsByForumIdFromTo(id, from);
+            forum.setTopicsCount(topicDao.getTopicsCountByForumID(forum.getId()));
             forum.setTopics(topicList);
 
         } catch (SQLException e) {
