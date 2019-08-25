@@ -201,4 +201,46 @@ public class MySqlCommentDao implements CommentDao {
         }
         return commentList;
     }
+
+    @Override
+    public long getCommentsCountByTopicID(int topicID) throws DaoExeption {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int intCount;
+        long longCount;
+        try {
+            connection = connectionsPool.getConnection();
+            statement = connection.prepareStatement("SELECT COUNT(comments.id) FROM comments WHERE ownerTopic = ?");
+            statement.setInt(1, topicID);
+            resultSet = statement.executeQuery();
+            intCount = resultSet.getInt("id");
+            longCount = (long) intCount;
+        } catch (SQLException e) {
+            throw new DaoExeption(DaoExeption._SQL_ERROR);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_RESAULTSET);
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_STATEMANT);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new DaoExeption(DaoExeption._CANT_CLOSE_CONNECTION);
+                }
+            }
+        }
+        return longCount;
+    }
 }

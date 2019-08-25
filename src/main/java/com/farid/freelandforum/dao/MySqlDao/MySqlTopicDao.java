@@ -16,10 +16,10 @@ import java.util.List;
 
 public class MySqlTopicDao implements TopicDao {
 
-    ConnectionsPool connectionsPool;
-    CommentDao commentDao;
-    UserDao userDao;
-    ImageDao imageDao;
+    private ConnectionsPool connectionsPool;
+    private CommentDao commentDao;
+    private UserDao userDao;
+    private ImageDao imageDao;
 
     public MySqlTopicDao(ConnectionsPool connectionsPool, CommentDao commentDao, UserDao userDao, ImageDao imageDao) {
         this.connectionsPool = connectionsPool;
@@ -129,6 +129,7 @@ public class MySqlTopicDao implements TopicDao {
                 topic.setComments(commentList);
                 lastComment = commentDao.getLastCommenInTopic(topic.getId());
                 topic.setLastComment(lastComment);
+                topic.setPostsCount(commentDao.getCommentsCountByTopicID(topic.getId()));
                 topicList.add(topic);
             }
         } catch (SQLException e) {

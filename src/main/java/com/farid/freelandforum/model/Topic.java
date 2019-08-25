@@ -8,12 +8,12 @@ import java.util.List;
 @Data
 public class Topic {
 
-    private int id, ownerForum, postsCount;
+    private int id, ownerForum;
     private String name, data;
     private User author;
     private Date postDate, lastChangeDate;
     private List<Comment> comments;
-    private long views, rating;
+    private long views, rating, postsCount;
     private Comment lastComment;
     private List<Image> images;
 

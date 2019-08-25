@@ -22,4 +22,5 @@ public interface TopicDao {
     List<Topic> getAllTopicsByOwnerForumID(int id) throws DaoExeption;
 
     long getTopicsCountByForumID(int forumID) throws  DaoExeption;
+
 }

@@ -23,6 +23,9 @@ public interface CommentDao {
 
     Comment getLastCommenInTopic(int topicID) throws DaoExeption;
 
-    List<Comment> getCommentsByTopicIdFromTo (int topicID, int from) throws DaoExeption;
+    List<Comment> getCommentsByTopicIdFromTo(int topicID, int from) throws DaoExeption;
+
+    long getCommentsCountByTopicID(int topicID) throws DaoExeption;
+
 
 }
