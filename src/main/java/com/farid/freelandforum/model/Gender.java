@@ -1,6 +1,6 @@
 package com.farid.freelandforum.model;
 
-public enum Sex {
+public enum Gender {
 
-    Man, Woman
+    Male, Female
 }

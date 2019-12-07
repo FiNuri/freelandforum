@@ -12,7 +12,7 @@ CREATE TABLE users (
   birthDate DATE ,
   registrationDate DATE DEFAULT(CURRENT_DATE()),
   nikName VARCHAR(30) NOT NULL ,
-  sex ENUM('man','woman'),
+  gender ENUM('man','woman'),
   rankk ENUM('noob', 'userr', 'pro', 'master', 'legend', 'moderator', 'admin'),
   ava BLOB,
   PRIMARY KEY (id));

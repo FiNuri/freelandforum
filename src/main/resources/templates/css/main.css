@@ -1,0 +1,116 @@
+@font-face {
+  font-family: 'Italianno';
+  src: url("../fonts/Italianno/Italianno-Regular.ttf") format("truetype");
+}
+
+a {
+  text-decoration: none;
+  color: aliceblue;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #3dc909;
+}
+
+.noselect {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+body {
+  background-image: url("../img/763844.jpg");
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: darkviolet;
+}
+
+h1 {
+  font-family: 'Italianno', cursive;
+  font-size: 5rem;
+  color: aliceblue;
+}
+
+h2 {
+  font-family: 'Italianno', cursive;
+  font-size: 4rem;
+  color: #3dc909;
+}
+label{
+  color:aliceblue;
+  font-family: 'Italianno', cursive;
+  font-size: 30px;
+}
+
+.tac {
+  text-align: center;
+}
+
+button.loginButton {
+  align-content: center;
+  font-family: 'Italianno', cursive;
+  font-size: 23px;
+  width: 6rem;
+  height: 2rem;
+  padding: 0px;
+}
+button.loginButton:hover{
+  transition: 0.5s;
+
+
+}
+
+a.login {
+  margin: 5px;
+  font-family: 'Italianno', cursive;
+  font-size: 30px;
+}
+
+a.registration {
+  margin: 5px;
+  font-family: 'Italianno', cursive;
+  font-size: 30px;
+}
+
+.loginBox {
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: inset 0 0 15px #000;
+
+}
+
+div.bbottom {
+  margin: 5px;
+  border-bottom: 1px solid #3dc909;
+}
+
+.red {
+  background-color: red;
+}
+
+.black {
+  background-color: black;
+}
+
+.blue {
+  background-color: blue;
+}
+.mynavbar{
+  margin-top: 1em;
+  border-radius: 10px 10px 0px 0px;
+  background-color: darkslateblue;
+
+}
+.mycontainer{
+  padding: 0px;
+  background-color: aliceblue;
+}
+.color{
+  color: #04b006;
+}

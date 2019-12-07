@@ -4,7 +4,7 @@ import com.farid.freelandforum.dao.Interfaces.ConnectionsPool;
 import com.farid.freelandforum.dao.DaoExeption;
 import com.farid.freelandforum.dao.Interfaces.UserDao;
 import com.farid.freelandforum.model.Rank;
-import com.farid.freelandforum.model.Sex;
+import com.farid.freelandforum.model.Gender;
 import com.farid.freelandforum.model.User;
 
 import javax.imageio.ImageIO;
@@ -46,7 +46,7 @@ public class MySqlUserDao implements UserDao {
             user.setRating(resultSet.getLong("rating"));
             user.setBirthDate(resultSet.getDate("birthDate"));
             user.setRegistrationDate(resultSet.getDate("registrationDate"));
-            user.setSex(Sex.valueOf(resultSet.getString("sex")));
+            user.setGender(Gender.valueOf(resultSet.getString("sex")));
             user.setRank(Rank.valueOf(resultSet.getString("rankk")));
             Blob img = resultSet.getBlob("ava");
             InputStream in = img.getBinaryStream();

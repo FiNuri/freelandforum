@@ -1,14 +1,35 @@
 package com.farid.freelandforum.model;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
 public class FСategory {
 
     private int id;
     private String name;
     private List<Forum> forums;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Forum> getForums() {
+        return forums;
+    }
+
+    public void setForums(List<Forum> forums) {
+        this.forums = forums;
+    }
 }
