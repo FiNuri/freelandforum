@@ -14,13 +14,11 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 
-    @Value("${database.className}")
-    private String driverClassName;
-    @Value("${database.url}")
+    @Value("${spring.datasource.url}")
     private String jdbcURL;
-    @Value("${database.username}")
+    @Value("${spring.datasource.username}")
     private String username;
-    @Value("${database.password}")
+    @Value("spring.datasource.password")
     private String password;
 
     @Bean
@@ -32,7 +30,6 @@ public class AppConfig {
     public HikariConfig hikariConfig(){
 
         HikariConfig  hikariConfig = new HikariConfig();
-        hikariConfig.setDriverClassName(driverClassName);
         hikariConfig.setJdbcUrl(jdbcURL);
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
